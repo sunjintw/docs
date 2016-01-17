@@ -1,8 +1,6 @@
 #初识Jasmine
-January 17, 2016
-
-##Agendar:
-
+<small><small>*Jin Sun, January 17, 2016*</small></small>
+##我们要聊些什么:
 1. 发人深省的引子
 2. 简单粗暴的介绍
 3. 那么我们开始吧
@@ -10,7 +8,7 @@ January 17, 2016
 
 ##引子
 
-犹记得 Release 1c时大家紧张与郁闷的光景，我们为此做了很多，但请不要忘记故事的开始：
+犹记得 Release 1c时大家紧张与郁闷的光景，之后我们为此做了很多，但请不要忘记故事的开始：
 
 ```javascript
 ko.bindingHandlers.truncate = {
@@ -25,7 +23,7 @@ ko.bindingHandlers.truncate = {
     defaultLength: 15
 };
 ```
-尽管我们最终解决了代码本身的问题，但是如果我们不做些什么的话，可预见的将来一定像那可巧克力一样，让你不知道下一颗是什么滋味。我们不缺乏解决问题的能力，我们缺少的只是更早发现问题的方法，而自动化测试可以帮助我们，所以让我们欢迎 **Jasmine**.
+尽管我们最终解决了代码本身的问题，但是如果我们没有一些新的措施防范相同的错误出现的话，可预见的将来一定像巧克力一样，让你不知道下一颗是什么滋味。我们不缺乏解决问题的能力，我们缺少的只是更早发现问题的方法，而自动化测试可以帮助我们，所以让我们欢迎 <big><big>**Jasmine**</big></big>.
 
 ##介绍
 
@@ -76,11 +74,11 @@ Jasmine 是一款 **JavaScript 测试框架**，它不依赖于其他任何 Java
 
     Jasmine有四个核心概念：*分组(Suites)*、用例(Specs)、期望(Expectations)、匹配(Matchers).
 
-#### Suites
+####Suites
 Suites可以理解为一组测试用例，使用全局的Jasmin函数describe 创建。describe函数接受两个参数，一个字符串和一个函数。字符串是这个Suites的名字或标题（通常描述下测试内容），函数是实现Suites的代码块。
-#### Specs
+####Specs
 Specs可以理解为一个测试用例，使用全局的Jasmin函数it创建。和describe一样接受两个参数，一个字符串和一个函数，函数就是要执行的测试代码，字符串就是测试用例的名字。一个Spec可以包含多个expectations来测试代码。
-#### Expectations
+####Expectations
 Expectations由expect 函数创建。接受一个参数。和Matcher一起联用，设置测试的预期值。
 
      在分组(describe)中可以写多个测试用例(it)，也可以再进行分组(describe)，在测试用例(it)中定义期望表达式(expect)和匹配判断(toBe*)。看一个简单的Demo:
@@ -100,7 +98,7 @@ describe("A suite", function() {//suites
 });
 ```
 
-#### Matchers
+####Matchers
 Matcher实现一个“期望值”与“实际值”的对比，如果结果为true，则通过测试，反之，则失败。每一个matcher都能通过not执行否定判断。
 
 简单的matchers：
@@ -123,20 +121,20 @@ expect(a).toContain(b);//期望a(数组或者对象)包含b
 
 其他matchers：
     
-**jasmine.any(Class)**:传入构造函数或者类返回数据类型作为期望值，返回true表示实际值和期望值数据类型相同:
+**jasmine.any(Class)**--传入构造函数或者类返回数据类型作为期望值，返回true表示实际值和期望值数据类型相同:
 ```javascript
 it("matches any value", function() {  
     expect({}).toEqual(jasmine.any(Object));
     expect(12).toEqual(jasmine.any(Number));
 });
 ```
-**jasmine.anything()**:如果实际值不是null或者undefined则返回true:
+**jasmine.anything()**--如果实际值不是null或者undefined则返回true:
 ```javascript
 it("matches anything", function() {  
     expect(1).toEqual(jasmine.anything());
 });
 ```
-**jasmine.objectContaining({key:value})**:实际数组只要匹配到有包含的数值就算匹配通过:
+**jasmine.objectContaining({key:value})**--实际数组只要匹配到有包含的数值就算匹配通过:
 ```javascript
 foo = {  
       a: 1,
@@ -145,13 +143,13 @@ foo = {
 };
 expect(foo).toEqual(jasmine.objectContaining({bar: "baz"}));
 ```
-**jasmine.arrayContaining([val1,val2,...])**:stringContaining可以匹配字符串的一部分也可以匹配对象内的字符串:
+**jasmine.arrayContaining([val1,val2,...])**--stringContaining可以匹配字符串的一部分也可以匹配对象内的字符串:
 ```javascript
 expect({foo: 'bar'}).toEqual({foo: jasmine.stringMatching(/^bar$/)});  
 expect('foobarbaz').toEqual({foo: jasmine.stringMatching('bar')}); 
 ```
 <small>*Jasmine还支持自定义Matchers，今天我们先不展开了.*</small>
-#### Setup and Teardown
+####Setup and Teardown
 为了在复杂的测试用例中更加便于组装和拆卸，Jasmine提供了四个函数：
 ```javascript
 beforeEach(function)  //在每一个测试用例(it)执行之前都执行一遍beforeEach函数；  
@@ -219,7 +217,7 @@ describe("Pending specs", function() {
   });
 });
 ```
-#### Spy追踪
+####Spy追踪
 Jasmine具有函数的追踪和反追踪的双重功能，这东西就是Spy！
 Spy能够存储任何函数调用记录和传入的参数，Spy只存在于describe和it中，在spec执行完之后销毁。说的这么晦涩，还是直接上例子吧：
 ```javascript
@@ -247,7 +245,7 @@ describe("A spy", function() {
   });
 });
 ```
-**and.callThrough**:spy链式调用and.callThrough后，在获取spy的同时，调用实际的函数，看示例：
+**and.callThrough**--spy链式调用and.callThrough后，在获取spy的同时，调用实际的函数，看示例：
 ```javascript
 describe("A spy, when configured to call through", function() {  
   var foo, bar, fetchedBar;
@@ -275,7 +273,7 @@ describe("A spy, when configured to call through", function() {
   });
 });
 ```
-**and.returnValue**:spy链式调用and.returnValue 后，任何时候调用该方法都只会返回指定的值，比如：
+**and.returnValue**--spy链式调用and.returnValue 后，任何时候调用该方法都只会返回指定的值，比如：
 ```javascript
 describe("A spy, when configured to fake a return value", function() {  
   var foo, bar, fetchedBar;
@@ -303,7 +301,7 @@ describe("A spy, when configured to fake a return value", function() {
   });
 });
 ```
-**and.callFake**:spy链式添加and.callFake相当于用新的方法替换spy的方法，比如：
+**and.callFake**--spy链式添加and.callFake相当于用新的方法替换spy的方法，比如：
 ```javascript
 describe("A spy, when configured with an alternate implementation", function() {  
   var foo, bar, fetchedBar;
@@ -333,7 +331,7 @@ describe("A spy, when configured with an alternate implementation", function() {
   });
 });
 ```
-**and.throwError**:spy链式调用and.callError后，任何时候调用该方法都会抛出异常错误信息:
+**and.throwError**--spy链式调用and.callError后，任何时候调用该方法都会抛出异常错误信息:
 ```javascript
 describe("A spy, when configured to throw an error", function() {  
   var foo, bar;
@@ -352,7 +350,7 @@ describe("A spy, when configured to throw an error", function() {
   });
 });
 ```
-**and.stub**:spy恢复到原始状态，不执行任何操作。直接看下代码:
+**and.stub**--spy恢复到原始状态，不执行任何操作。直接看下代码:
 ```javascript
 describe("A spy", function() {  
   var foo, bar = null;
@@ -390,20 +388,20 @@ describe("A spy", function() {
 ####虚拟定时器
 Jasmine Clock 使用setTimeout 和setInterval 来声明定时的回调操作。它使回调函数同步执行，当Clock的tick时间超过timer的时间，回调函数会被触发一次。
 Jasmine Clock使用jasmine.clock().install 在需要调用timer函数的spec和suite中初始化。在执行完测试的时候，一定要卸载Clock来还原timer函数。使用jasmine.clock().tick来推进时间以使注册的回调触发。
-**Install**:在Spec或者Suite中安装Jasmine Clock:
+**Install**--在Spec或者Suite中安装Jasmine Clock:
 ```javascript
 beforeEach(function() {  
     timerCallback = jasmine.createSpy("timerCallback");
     jasmine.clock().install();
 });
 ```
-**Uninstall**:保证使用完成后，切记要关闭Jasmine Clock：
+**Uninstall**--保证使用完成后，切记要关闭Jasmine Clock：
 ```javascript:
 afterEach(function() {  
     jasmine.clock().uninstall();
 });
 ```
-**Tick**:使用jasmine.clock().tick来计时，一旦累计的时间达到setTimeout或者setInterval中指定的延时时间，则触发回调函数：
+**Tick**--使用jasmine.clock().tick来计时，一旦累计的时间达到setTimeout或者setInterval中指定的延时时间，则触发回调函数：
 ```javascript
 describe("Manually ticking the Jasmine Clock", function() {
   var timerCallback;
