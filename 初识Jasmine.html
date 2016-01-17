@@ -1015,18 +1015,16 @@ body .markdown-body
   }
 }
 </style><title>初识Jasmine</title></head><body><article class="markdown-body"><h1 id="jasmine"><a name="user-content-jasmine" href="#jasmine" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>初识Jasmine</h1>
-<p>January 17, 2016</p>
-<h2 id="agendar"><a name="user-content-agendar" href="#agendar" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Agendar:</h2>
+<p><small><small><em>Jin Sun, January 17, 2016</em></small></small></p>
+<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>我们要聊些什么:</h2>
 <ol>
 <li>发人深省的引子</li>
 <li>简单粗暴的介绍</li>
 <li>那么我们开始吧</li>
 <li>我该如何使用呢</li>
-<li>举起一个小栗子 </li>
-<li>Jasmine与他的好基友们</li>
 </ol>
-<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>引子</h2>
-<p>犹记得 Release 1c时大家紧张与郁闷的光景，我们为此做了很多，但请不要忘记故事的开始：</p>
+<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>引子</h2>
+<p>犹记得 Release 1c时大家紧张与郁闷的光景，之后我们为此做了很多，但请不要忘记故事的开始：</p>
 <p><pre><code class="javascript">ko.bindingHandlers.truncate = {
     update: function (element, valueAccessor, allBindingsAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
@@ -1039,10 +1037,10 @@ body .markdown-body
     defaultLength: 15
 };
 </code></pre><br />
-尽管我们最终解决了代码本身的问题，但是如果我们不做些什么的话，可预见的将来一定像那可巧克力一样，让你不知道下一颗是什么滋味。我们不缺乏解决问题的能力，我们缺少的只是更早发现问题的方法，而自动化测试可以帮助我们，所以让我们欢迎 <strong>Jasmine</strong>.</p>
-<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>介绍</h2>
+尽管我们最终解决了代码本身的问题，但是如果我们没有一些新的措施防范相同的错误出现的话，可预见的将来一定像巧克力一样，让你不知道下一颗是什么滋味。我们不缺乏解决问题的能力，我们缺少的只是更早发现问题的方法，而自动化测试可以帮助我们，所以让我们欢迎 <big><big><strong>Jasmine</strong></big></big>.</p>
+<h2 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>介绍</h2>
 <p>Jasmine 是一款 <strong>JavaScript 测试框架</strong>，它不依赖于其他任何 JavaScript 组件。它有<strong>干净清晰的语</strong>法，让你可以很简单的写出测试代码。</p>
-<h2 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>开始</h2>
+<h2 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>开始</h2>
 <ol>
 <li>前往 <a href="https://github.com/jasmine/jasmine/releases">Jasmine 官网</a>下载standalone版本。<br />
 <img alt="image" src="https://raw.githubusercontent.com/sunjintw/docs/master/img/jasmine_download.png" /></li>
@@ -1083,7 +1081,439 @@ body .markdown-body
 &lt;/html&gt;
 </code></pre>
 
-<h2 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>使用</h2>
-<pre><code>打开测试文件PlayerSpec.js，我们会看到describe，it，beforeEach，afterEach，expect，toBe....都是些什么意思呢？
-下面我们开始Jasmine的语法学习。Jasmine有四个核心概念：分组(Suites)、用例(Specs)、期望(Expectations)、匹配(Matchers)
-</code></pre></article></body></html>
+<h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>使用</h2>
+<p>打开测试文件PlayerSpec.js，我们会看到describe，it，beforeEach，afterEach，expect，toBe....都是些什么意思呢？</p>
+<pre><code>Jasmine有四个核心概念：*分组(Suites)*、用例(Specs)、期望(Expectations)、匹配(Matchers).
+</code></pre>
+<h4 id="suites"><a name="user-content-suites" href="#suites" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Suites</h4>
+<p>Suites可以理解为一组测试用例，使用全局的Jasmin函数describe 创建。describe函数接受两个参数，一个字符串和一个函数。字符串是这个Suites的名字或标题（通常描述下测试内容），函数是实现Suites的代码块。</p>
+<h4 id="specs"><a name="user-content-specs" href="#specs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Specs</h4>
+<p>Specs可以理解为一个测试用例，使用全局的Jasmin函数it创建。和describe一样接受两个参数，一个字符串和一个函数，函数就是要执行的测试代码，字符串就是测试用例的名字。一个Spec可以包含多个expectations来测试代码。</p>
+<h4 id="expectations"><a name="user-content-expectations" href="#expectations" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Expectations</h4>
+<p>Expectations由expect 函数创建。接受一个参数。和Matcher一起联用，设置测试的预期值。</p>
+<pre><code> 在分组(describe)中可以写多个测试用例(it)，也可以再进行分组(describe)，在测试用例(it)中定义期望表达式(expect)和匹配判断(toBe*)。看一个简单的Demo:
+</code></pre>
+<p><code>javascript
+describe("A suite", function() {//suites  
+    var a;
+    it("A spec", function() {//spec
+      a = true;
+      expect(a).toBe(true);//expectations
+    });
+
+    describe("a suite", function() {//inner suites
+           it("a spec", function() {//spec
+           expect(a).toBe(true);//expectations
+        });
+  });
+});</code></p>
+<h4 id="matchers"><a name="user-content-matchers" href="#matchers" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Matchers</h4>
+<p>Matcher实现一个“期望值”与“实际值”的对比，如果结果为true，则通过测试，反之，则失败。每一个matcher都能通过not执行否定判断。</p>
+<p>简单的matchers：<br />
+<pre><code class="javascript">expect(a).toBe(true);//期望变量a为true  
+expect(a).toEqual(true);//期望变量a等于true  
+expect(a).toMatch(/reg/);//期望变量a匹配reg正则表达式，也可以是字符串  
+expect(a.foo).toBeDefined();//期望a.foo已定义  
+expect(a.foo).toBeUndefined();//期望a.foo未定义  
+expect(a).toBeNull();//期望变量a为null  
+expect(a.isMale).toBeTruthy();//期望a.isMale为真  
+expect(a.isMale).toBeFalsy();//期望a.isMale为假  
+expect(true).toEqual(true);//期望true等于true  
+expect(a).toBeLessThan(b);//期望a小于b  
+expect(a).toBeGreaterThan(b);//期望a大于b  
+expect(a).toThrowError(/reg/);//期望a方法抛出异常，异常信息可以是字符串、正则表达式、错误类型以及错误类型和错误信息  
+expect(a).toThrow();//期望a方法抛出异常  
+expect(a).toContain(b);//期望a(数组或者对象)包含b  
+</code></pre></p>
+<p>其他matchers：</p>
+<p><strong>jasmine.any(Class)</strong>&ndash;传入构造函数或者类返回数据类型作为期望值，返回true表示实际值和期望值数据类型相同:<br />
+<pre><code class="javascript">it(&quot;matches any value&quot;, function() {  
+    expect({}).toEqual(jasmine.any(Object));
+    expect(12).toEqual(jasmine.any(Number));
+});
+</code></pre><br />
+<strong>jasmine.anything()</strong>&ndash;如果实际值不是null或者undefined则返回true:<br />
+<pre><code class="javascript">it(&quot;matches anything&quot;, function() {  
+    expect(1).toEqual(jasmine.anything());
+});
+</code></pre><br />
+<strong>jasmine.objectContaining({key:value})</strong>&ndash;实际数组只要匹配到有包含的数值就算匹配通过:<br />
+<pre><code class="javascript">foo = {  
+      a: 1,
+      b: 2,
+      bar: &quot;baz&quot;
+};
+expect(foo).toEqual(jasmine.objectContaining({bar: &quot;baz&quot;}));
+</code></pre><br />
+<strong>jasmine.arrayContaining([val1,val2,&hellip;])</strong>&ndash;stringContaining可以匹配字符串的一部分也可以匹配对象内的字符串:<br />
+<pre><code class="javascript">expect({foo: 'bar'}).toEqual({foo: jasmine.stringMatching(/^bar$/)});  
+expect('foobarbaz').toEqual({foo: jasmine.stringMatching('bar')}); 
+</code></pre><br />
+<small><em>Jasmine还支持自定义Matchers，今天我们先不展开了.</em></small></p>
+<h4 id="setup-and-teardown"><a name="user-content-setup-and-teardown" href="#setup-and-teardown" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Setup and Teardown</h4>
+<p>为了在复杂的测试用例中更加便于组装和拆卸，Jasmine提供了四个函数：<br />
+<pre><code class="javascript">beforeEach(function)  //在每一个测试用例(it)执行之前都执行一遍beforeEach函数；  
+afterEach(function)  //在每一个测试用例(it)执行完成之后都执行一遍afterEach函数；  
+beforeAll(function)  //在所有测试用例执行之前执行一遍beforeAll函数；  
+afterAll(function)  //在所有测试用例执行完成之后执行一遍afterAll函数； 
+</code></pre><br />
+对照一下结果看一下下面的例子就一目了然啦：<br />
+<pre><code class="javascript">describe(&quot;A spec using beforeEach and afterEach&quot;, function() {  
+  var foo = 0;
+  beforeEach(function() {
+    foo += 1;
+    console.log(&quot;I am beforEach&quot;);
+  });
+  afterEach(function() {
+    foo = 0;
+    console.log(&quot;I am afterEach&quot;);
+  });
+  it(&quot;A spec1&quot;, function() {
+    expect(foo).toEqual(1);
+    console.log(&quot;I am spec1&quot;);
+  });
+  it(&quot;A spec2&quot;, function() {
+    expect(foo).toEqual(1);
+    expect(true).toEqual(true);
+    console.log(&quot;I am spec2&quot;);
+  });
+});
+describe(&quot;A spec using beforeAll and afterAll&quot;, function() {  
+  var foo;
+  beforeAll(function() {
+    foo = 1;
+    console.log(&quot;I am beforAll&quot;);
+  });
+  afterAll(function() {
+    foo = 0;
+    console.log(&quot;I am afterAll&quot;);
+  });
+  it(&quot;A spec1&quot;, function() {
+    expect(foo).toEqual(1);
+    foo += 1;
+    console.log(&quot;I am A spec1&quot;);
+  });
+  it(&quot;A spec2&quot;, function() {
+    expect(foo).toEqual(2);
+    console.log(&quot;I am A spec2&quot;);
+  });
+});
+</code></pre><br />
+最终输出：<br />
+<img alt="image" src="https://raw.githubusercontent.com/sunjintw/docs/master/img/jasmine_download.png" /></p>
+<h4 id="suitesspecs"><a name="user-content-suitesspecs" href="#suitesspecs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Suites禁用和Specs挂起</h4>
+<p>Jasmine提供xdescrib和xit方法用于屏蔽测试用例，xdescribe里面的定义的it、beforeEach、afterEach等之类的方法不会执行，describe里面定义的xit不会执行。<br />
+测试文档遇到用例挂起的地方就不会执行期望的匹配表达式，有三种使用方法：<br />
+<pre><code class="javascript">describe(&quot;Pending specs&quot;, function() {  
+  xit(&quot;can be declared 'xit'&quot;, function() {//第一种，使用xit将测试用例直接屏蔽
+    expect(true).toBe(false);
+  });
+ it(&quot;can be declared with 'it' but without a function&quot;);//第二种，只声明it，不定义回调函数
+ it(&quot;can be declared by calling 'pending' in the spec body&quot;, function() {
+    expect(true).toBe(false);
+    pending('this is why it is pending');//第三种，使用pending函数
+  });
+});
+</code></pre></p>
+<h4 id="spy"><a name="user-content-spy" href="#spy" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Spy追踪</h4>
+<p>Jasmine具有函数的追踪和反追踪的双重功能，这东西就是Spy！<br />
+Spy能够存储任何函数调用记录和传入的参数，Spy只存在于describe和it中，在spec执行完之后销毁。说的这么晦涩，还是直接上例子吧：<br />
+<pre><code class="javascript">describe(&quot;A spy&quot;, function() {  
+  var foo, bar = null;
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+    spyOn(foo, 'setBar');//给foo对象的setBar函数绑定追踪
+    foo.setBar(123);
+    foo.setBar(456, 'another param');
+  });
+  it(&quot;tracks that the spy was called&quot;, function() {
+    expect(foo.setBar).toHaveBeenCalled();//toHaveBeenCalled用来匹配测试函数是否被调用过
+  });
+  it(&quot;tracks all the arguments of its calls&quot;, function() {
+    expect(foo.setBar).toHaveBeenCalledWith(123);//toHaveBeenCalledWith用来匹配测试函数被调用时的参数列表
+    expect(foo.setBar).toHaveBeenCalledWith(456, 'another param');//期望foo.setBar已经被调用过，且传入参数为[456, 'another param']
+  });
+  it(&quot;stops all execution on a function&quot;, function() {
+    expect(bar).toBeNull();//用例没有执行foo.setBar,bar为null
+  });
+});
+</code></pre><br />
+<strong>and.callThrough</strong>&ndash;spy链式调用and.callThrough后，在获取spy的同时，调用实际的函数，看示例：<br />
+<pre><code class="javascript">describe(&quot;A spy, when configured to call through&quot;, function() {  
+  var foo, bar, fetchedBar;
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      },
+      getBar: function() {
+        return bar;
+      }
+    };
+    spyOn(foo, 'getBar').and.callThrough();//调用and.callThrough方法
+    foo.setBar(123);
+    fetchedBar = foo.getBar();//因为and.callThrough，这里执行的是foo.getBar方法，而不是spy的方法
+  });
+  it(&quot;tracks that the spy was called&quot;, function() {
+    expect(foo.getBar).toHaveBeenCalled();
+  });
+  it(&quot;should not effect other functions&quot;, function() {
+    expect(bar).toEqual(123);
+  });
+  it(&quot;when called returns the requested value&quot;, function() {
+    expect(fetchedBar).toEqual(123);
+  });
+});
+</code></pre><br />
+<strong>and.returnValue</strong>&ndash;spy链式调用and.returnValue 后，任何时候调用该方法都只会返回指定的值，比如：<br />
+<pre><code class="javascript">describe(&quot;A spy, when configured to fake a return value&quot;, function() {  
+  var foo, bar, fetchedBar;
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      },
+      getBar: function() {
+        return bar;
+      }
+    };
+    spyOn(foo, &quot;getBar&quot;).and.returnValue(745);//指定返回值为745
+    foo.setBar(123);
+    fetchedBar = foo.getBar();
+  });
+  it(&quot;tracks that the spy was called&quot;, function() {
+    expect(foo.getBar).toHaveBeenCalled();
+  });
+  it(&quot;should not effect other functions&quot;, function() {
+    expect(bar).toEqual(123);
+  });
+  it(&quot;when called returns the requested value&quot;, function() {
+    expect(fetchedBar).toEqual(745);//默认返回指定的returnValue值
+  });
+});
+</code></pre><br />
+<strong>and.callFake</strong>&ndash;spy链式添加and.callFake相当于用新的方法替换spy的方法，比如：<br />
+<pre><code class="javascript">describe(&quot;A spy, when configured with an alternate implementation&quot;, function() {  
+  var foo, bar, fetchedBar;
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      },
+      getBar: function() {
+        return bar;
+      }
+    };
+    spyOn(foo, &quot;getBar&quot;).and.callFake(function() {//指定callFake方法
+      return 1001;
+    });
+    foo.setBar(123);
+    fetchedBar = foo.getBar();
+  });
+  it(&quot;tracks that the spy was called&quot;, function() {
+    expect(foo.getBar).toHaveBeenCalled();
+  });
+  it(&quot;should not effect other functions&quot;, function() {
+    expect(bar).toEqual(123);
+  });
+  it(&quot;when called returns the requested value&quot;, function() {
+    expect(fetchedBar).toEqual(1001);//执行callFake方法，返回1001
+  });
+});
+</code></pre><br />
+<strong>and.throwError</strong>&ndash;spy链式调用and.callError后，任何时候调用该方法都会抛出异常错误信息:<br />
+<pre><code class="javascript">describe(&quot;A spy, when configured to throw an error&quot;, function() {  
+  var foo, bar;
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+    spyOn(foo, &quot;setBar&quot;).and.throwError(&quot;error&quot;);//指定throwError
+  });
+  it(&quot;throws the value&quot;, function() {
+    expect(function() {
+      foo.setBar(123)
+    }).toThrowError(&quot;error&quot;);//抛出错误异常
+  });
+});
+</code></pre><br />
+<strong>and.stub</strong>&ndash;spy恢复到原始状态，不执行任何操作。直接看下代码:<br />
+<pre><code class="javascript">describe(&quot;A spy&quot;, function() {  
+  var foo, bar = null;
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+    spyOn(foo, 'setBar').and.callThrough();
+  });
+  it(&quot;can call through and then stub in the same spec&quot;, function() {
+    foo.setBar(123);
+    expect(bar).toEqual(123);
+    foo.setBar.and.stub();//把foo.setBar设置为原始状态，and.callThrough无效
+    bar = null;
+    foo.setBar(123);//执行赋值无效
+    expect(bar).toBe(null);
+  });
+});
+</code></pre></p>
+<h5 id="spy_1"><a name="user-content-spy_1" href="#spy_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Spy的其他方法</h5>
+<pre><code class="javascript">.calls.any():记录spy是否被访问过，如果没有，则返回false，否则，返回true；
+.calls.count():记录spy被访问过的次数；
+.calls.argsFor(index):返回指定索引的参数；
+.calls.allArgs():返回所有函数调用的参数记录数组；
+.calls.all ():返回所有函数调用的上下文、参数和返回值；
+.calls.mostRecent():返回最近一次函数调用的上下文、参数和返回值；
+.calls.first():返回第一次函数调用的上下文、参数和返回值；
+.calls.reset():清除spy的所有调用记录；
+</code></pre>
+
+<h4 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>虚拟定时器</h4>
+<p>Jasmine Clock 使用setTimeout 和setInterval 来声明定时的回调操作。它使回调函数同步执行，当Clock的tick时间超过timer的时间，回调函数会被触发一次。<br />
+Jasmine Clock使用jasmine.clock().install 在需要调用timer函数的spec和suite中初始化。在执行完测试的时候，一定要卸载Clock来还原timer函数。使用jasmine.clock().tick来推进时间以使注册的回调触发。<br />
+<strong>Install</strong>&ndash;在Spec或者Suite中安装Jasmine Clock:<br />
+<pre><code class="javascript">beforeEach(function() {  
+    timerCallback = jasmine.createSpy(&quot;timerCallback&quot;);
+    jasmine.clock().install();
+});
+</code></pre><br />
+<strong>Uninstall</strong>&ndash;保证使用完成后，切记要关闭Jasmine Clock：<br />
+```javascript:<br />
+afterEach(function() {<br />
+    jasmine.clock().uninstall();<br />
+});<br />
+<pre><code>**Tick**--使用jasmine.clock().tick来计时，一旦累计的时间达到setTimeout或者setInterval中指定的延时时间，则触发回调函数：
+```javascript
+describe(&quot;Manually ticking the Jasmine Clock&quot;, function() {
+  var timerCallback;
+  beforeEach(function() {
+    timerCallback = jasmine.createSpy(&quot;timerCallback&quot;);
+    jasmine.clock().install();
+  });
+  afterEach(function() {
+    jasmine.clock().uninstall();
+  });
+  it(&quot;causes a timeout to be called synchronously&quot;, function() {
+    setTimeout(function() {
+      timerCallback();
+    }, 100);//声明回调函数tick到100ms就触发
+
+    expect(timerCallback).not.toHaveBeenCalled();
+
+
+    jasmine.clock().tick(101);//tick 101 会触发上面注册的setTimeout
+
+    expect(timerCallback).toHaveBeenCalled();
+  });
+});
+</code></pre><br />
+<strong>Mock Date</strong><br />
+<pre><code class="javascript">describe(&quot;Mocking the Date object&quot;, function(){  
+    it(&quot;mocks the Date object and sets it to a given time&quot;, function() {
+      var baseTime = new Date(2016, 1, 27);//new一个指定的时间，没有参数则返回当前时间
+        jasmine.clock().mockDate(baseTime);//构造一个虚拟的当前时间
+        jasmine.clock().tick(50);//让虚拟的当前时间快进50ms
+        expect(new Date().getTime()).toEqual(baseTime.getTime() + 50);
+    });
+  });
+});
+</code></pre></p>
+<h4 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>异步支持</h4>
+<p>Jasmine支持测试需要执行异步操作的specs，调用beforeEach , it , 和afterEach 的时候，可以带一个可选的参数done ，当spec执行完成之后需要调用done 来告诉Jasmine异步操作已经完成。<br />
+默认Jasmine的超时时间是5s，可以通过全局的jasmine.DEFAULTTIMEOUTINTERVAL 设置。<br />
+<pre><code class="javascript">describe(&quot;Asynchronous specs&quot;, function() {  
+  var value;
+  beforeEach(function(done) {//传入done参数表示要执行异步操作
+    setTimeout(function() {
+      value = 0;
+      done();//执行done()函数通知it异步操作已经执行完毕，必须执行
+    }, 10000);
+  });
+ it(&quot;should support async execution of test preparation and expectations&quot;, function(done) {//传入done参数表示要执行异步操作
+    value++;
+    expect(value).toBeGreaterThan(0);
+    done();//执行done()函数通知it异步操作已经执行完毕，必须执行
+  });
+});
+</code></pre></p>
+<h4 id="ajax"><a name="user-content-ajax" href="#ajax" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Ajax</h4>
+<p>Jasmine拥有一个用于测试Ajax请求的plug-in：<br />
+<pre><code class="javascript">describe(&quot;mocking ajax&quot;, function() {
+  describe(&quot;suite wide usage&quot;, function() {
+    beforeEach(function() {
+      jasmine.Ajax.install();
+    });
+    afterEach(function() {
+      jasmine.Ajax.uninstall();
+    });
+
+    it(&quot;specifying response when you need it&quot;, function() {
+      var doneFn = jasmine.createSpy(&quot;success&quot;);
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(args) {
+        if (this.readyState == this.DONE) {
+          doneFn(this.responseText);
+        }
+      };
+
+      xhr.open(&quot;GET&quot;, &quot;/some/cool/url&quot;);
+      xhr.send();
+      expect(jasmine.Ajax.requests.mostRecent().url).toBe('/some/cool/url');
+      expect(doneFn).not.toHaveBeenCalled();
+      jasmine.Ajax.requests.mostRecent().response({
+        &quot;status&quot;: 200,
+        &quot;contentType&quot;: 'text/plain',
+        &quot;responseText&quot;: 'awesome response'
+      });
+      expect(doneFn).toHaveBeenCalledWith('awesome response');
+    });
+    it(&quot;allows responses to be setup ahead of time&quot;, function () {
+      var doneFn = jasmine.createSpy(&quot;success&quot;);
+      jasmine.Ajax.stubRequest('/another/url').andReturn({
+        &quot;responseText&quot;: 'immediate response'
+      });
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(args) {
+        if (this.readyState == this.DONE) {
+          doneFn(this.responseText);
+        }
+      };
+
+      xhr.open(&quot;GET&quot;, &quot;/another/url&quot;);
+      xhr.send();
+
+      expect(doneFn).toHaveBeenCalledWith('immediate response');
+    });
+  });
+  it(&quot;allows use in a single spec&quot;, function() {
+    var doneFn = jasmine.createSpy('success');
+    jasmine.Ajax.withMock(function() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(args) {
+        if (this.readyState == this.DONE) {
+          doneFn(this.responseText);
+        }
+      };
+
+      xhr.open(&quot;GET&quot;, &quot;/some/cool/url&quot;);
+      xhr.send();
+
+      expect(doneFn).not.toHaveBeenCalled();
+
+      jasmine.Ajax.requests.mostRecent().response({
+        &quot;status&quot;: 200,
+        &quot;responseText&quot;: 'in spec response'
+      });
+
+      expect(doneFn).toHaveBeenCalledWith('in spec response');
+    });
+  });
+});
+</code></pre></p></article></body></html>
