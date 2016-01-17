@@ -201,7 +201,7 @@ describe("A spec using beforeAll and afterAll", function() {
 });
 ```
 最终输出：
-![image](https://raw.githubusercontent.com/sunjintw/docs/master/img/jasmine_download.png)
+![image](https://raw.githubusercontent.com/sunjintw/docs/master/img/jasmine_test_result.png)
 #### Suites禁用和Specs挂起
 Jasmine提供xdescrib和xit方法用于屏蔽测试用例，xdescribe里面的定义的it、beforeEach、afterEach等之类的方法不会执行，describe里面定义的xit不会执行。
 测试文档遇到用例挂起的地方就不会执行期望的匹配表达式，有三种使用方法：
