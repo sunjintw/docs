@@ -1018,10 +1018,11 @@ body .markdown-body
 <p><small><small><em>Jin Sun, January 17, 2016</em></small></small></p>
 <h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>我们要聊些什么:</h2>
 <ol>
-<li>发人深省的引子</li>
+<li>一个不错的引子</li>
 <li>简单粗暴的介绍</li>
 <li>那么我们开始吧</li>
 <li>我该如何使用呢</li>
+<li>与KnockoutJS不得不说的故事</li>
 </ol>
 <h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>引子</h2>
 <p>犹记得 Release 1c时大家紧张与郁闷的光景，之后我们为此做了很多，但请不要忘记故事的开始：</p>
@@ -1200,7 +1201,7 @@ describe(&quot;A spec using beforeAll and afterAll&quot;, function() {
 });
 </code></pre><br />
 最终输出：<br />
-<img alt="image" src="https://raw.githubusercontent.com/sunjintw/docs/master/img/jasmine_download.png" /></p>
+<img alt="image" src="https://raw.githubusercontent.com/sunjintw/docs/master/img/jasmine_test_result.png" /></p>
 <h4 id="suitesspecs"><a name="user-content-suitesspecs" href="#suitesspecs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Suites禁用和Specs挂起</h4>
 <p>Jasmine提供xdescrib和xit方法用于屏蔽测试用例，xdescribe里面的定义的it、beforeEach、afterEach等之类的方法不会执行，describe里面定义的xit不会执行。<br />
 测试文档遇到用例挂起的地方就不会执行期望的匹配表达式，有三种使用方法：<br />
@@ -1516,4 +1517,159 @@ describe(&quot;Manually ticking the Jasmine Clock&quot;, function() {
     });
   });
 });
-</code></pre></p></article></body></html>
+</code></pre></p>
+<h2 id="knockoutjs"><a name="user-content-knockoutjs" href="#knockoutjs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>KnockoutJS</h2>
+<h4 id="what-should-and-shouldnt-be-tested"><a name="user-content-what-should-and-shouldnt-be-tested" href="#what-should-and-shouldnt-be-tested" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>What should and shouldn’t be tested?</h4>
+<p>用人不疑，疑人不用。所以你不需要测试Knockout正确的将一个<code>ko.observable()</code>对象显示在一个前台<code>data-bind="text: ..."</code>的span对象上，同样我们也不需要测试<code>ko.computed</code>会在任何依赖发生变化时运行。那么我们测试什么呢？答案就是逻辑，我们应该更多的关注自己所写的逻辑代码，这些才是测试的重点。</p>
+<h4 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>一个简单栗子</h4>
+<pre><code class="javascript">var addressBookViewModel = {
+  entries : ko.observableArray([]),
+  newEntryFirstName : ko.observable(),
+  newEntrySurname : ko.observable()
+    addNewEntry : function() {
+        var newEntry = {
+          firstName : this.newEntryFirstName(),
+          surname : this.newEntrySurname()
+      };
+      this.entries.push(newEntry);
+      // clear form
+      this.newEntryFirstName('');
+      this.newEntrySurname('');
+  }
+};
+
+ko.applyBindings(addressBookViewModel);
+</code></pre>
+
+<h5 id="_9"><a name="user-content-_9" href="#_9" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>分析</h5>
+<p>可以想象一下这个<code>ViewModel</code>的应用场景，用户输入<code>firstname</code>,一个<code>surname</code>并且点击绑定了&rsquo;addNewEntry&rsquo;的按钮。分析逻辑我们发现，此时一个<code>entry</code>被加入了<code>entries</code>（可能会用在一个<code>table</code>里通过<code>foreach</code>显示），然后清空。<br />
+在开始测试之前我们首先要对代码进行一些重构，因为首先这个<code>ViewModel</code>是单例的，并且当前方法验证点太多我们需要拆分一下。重构后的代码如下：<br />
+<pre><code class="javascript">function AddressBookViewModel() {
+  this.entries = ko.observableArray([]);
+  this.newEntryFirstName = ko.observable();
+  this.newEntrySurname = ko.observable();
+  this.addNewEntry = function() {
+      addAddressBookEntry(this.newEntryFirstName, this.newEntrySurname, this.entries);
+      clearObservables([this.newEntryFirstName, this.newEntrySurname]);
+  };
+}
+
+function addAddressBookEntry(firstName, surname, list) {
+  var newEntry = {
+      firstName : ko.toJS(firstName),
+      surname : ko.toJS(surname)
+  };
+  list.push(newEntry);
+}
+
+function clearObservables(observables) {
+  observables.forEach(function(observable){
+      observable(null);
+  });
+}
+
+var addressBookViewModel = new AddressBookViewModel();
+ko.applyBindings(addressBookViewModel);
+</code></pre></p>
+<h5 id="_10"><a name="user-content-_10" href="#_10" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>开始测试</h5>
+<ul>
+<li>addAddressBookEntry<br />
+<pre><code class="javascript">// 'Describe' creates a Jasmine test. A describe block contains assertions, using the 'it' function.
+describe('addAddressBookEntry', function(){
+
+  var newEntryFirstName, newEntryLastName, list;
+
+  // 'beforeEach' performs setup before each 'it' test
+  beforeEach(function(){
+      newEntryFirstName = ko.observable('Peggy');
+      newEntryLastName = ko.observable('Hill');
+      list = ko.observableArray([]);
+  });
+
+  it('Adds an entry to the provided list', function(){       
+      var initialListLength = list().length;
+      addAddressBookEntry(newEntryFirstName, newEntryLastName, list);     
+      var newListLength = list().length;
+
+      // Jasmine uses the 'expect' function for assertions. Its format is very human-readable.
+      // If an expection proves false, it will throw an exception and the assertion will be reported as failed.
+      expect(newListLength).toBe(initialListLength + 1);
+  });
+
+  it('Adds an entry containing the supplied firstname and surname', function(){
+      addAddressBookEntry(newEntryFirstName, newEntryLastName, list);
+      var unwrappedList = list();
+      var expectedNewEntry = {firstName: 'Peggy', surname: 'Hill'};
+      // Jasmine's toContain will, amongst other things, test whether an array contains an object with fields matching a supplied object
+      expect(unwrappedList).toContain(expectedNewEntry);
+  });
+
+  it('Adds the entry to the end of the list', function(){
+      addAddressBookEntry(newEntryFirstName, newEntryLastName, list);
+      var unwrappedList = list();
+      var lastEntry = unwrappedList[unwrappedList.length - 1];
+
+      // You can have multiple expectations in a Jasmine test
+      expect(lastEntry.firstName).toBe('Peggy');
+      expect(lastEntry.surname).toBe('Hill');
+  });
+
+});
+</code></pre></li>
+</ul>
+<h4 id="_11"><a name="user-content-_11" href="#_11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>一个普通栗子</h4>
+<pre><code class="javascript">function FormatterBinding(formatter) {
+  this.update = function update(element, valueAccessor) {
+      var newModelValue = ko.unwrap(valueAccessor());
+      var formattedText = formatter(newModelValue);
+      // let's assume we don't need to support IE8
+      element.textContent = formattedText;
+  };
+}
+
+function formatNumberAsDollars(number) {
+  return number.toLocaleString('en-US',{style: 'currency', currency: 'USD', maximumFractionDigits: 2});
+}
+</code></pre>
+
+<h5 id="_12"><a name="user-content-_12" href="#_12" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>分析</h5>
+<p>这个<code>FormatterBinding</code>是用来将数字格式化为货币。对于下面的<code>formatNumberAsDollars</code>我们不需要测试，我们只需关注<code>FormatterBinding</code>。<br />
+<pre><code class="javascript">var mockFormatter, customBinding, mockValueAccessor;
+// 'beforeEach' performs setup before each 'it' test
+beforeEach(function(){
+  mockFormatter = jasmine.createSpy('mockFormatter');
+  customBinding = new FormatterBinding(mockFormatter);
+  mockElement = document.createElement('p');
+  mockValueAccessor = function() {
+      return ko.observable('someMockValue');
+  }
+});
+
+it('Calls the formatter with the value in the valueAccessor', function(){
+  // let's assume we've created all our mocks as part of a Jasmine 
+  // beforeEach block that runs before each set of assertions
+
+  customBinding.update(mockElement, mockValueAccessor);
+  expect(mockFormatter).toHaveBeenCalledWith('someMockValue');
+});
+
+it('Prints the output of the formatter to the element', function(){
+  // Setting up the spy is a little bit awkward
+  var mockFunctions = {
+      mockFormatter : function() { return 'I am the mockFormatter return value';}
+  };
+  spyOn(mockFunctons, 'mockFormatter');
+
+  // But everything else is dead easy
+  var evilFormatter = function() {
+      return evilString;
+  }
+
+  var atRiskBinding = new FormatterBinding(evilFormatter);
+  at  var customBinding = new FormatterBinding(mockFunctions.mockFormatter);
+  customBinding.update(mockElement, mockValueAccessor);
+  var mockElementContent = mockElement.textContent;
+  expect(mockElementContent).toBe('I am the mockFormatter return value');
+});
+</code></pre></p>
+<p><em>然而并没有时间再去准备高级栗子了&hellip;</em></p></article></body></html>
