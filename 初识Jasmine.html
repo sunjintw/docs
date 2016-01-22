@@ -1025,7 +1025,7 @@ body .markdown-body
 <li>与KnockoutJS不得不说的故事</li>
 </ol>
 <h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>引子</h2>
-<p>犹记得 Release 1c时大家紧张与郁闷的光景，之后我们为此做了很多，但请不要忘记故事的开始：</p>
+<p>犹记得 Release 1c时大家紧张与郁闷的光景，之后我们为此做了很多，但请不要p忘记故事的开始：</p>
 <p><pre><code class="javascript">ko.bindingHandlers.truncate = {
     update: function (element, valueAccessor, allBindingsAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
@@ -1126,7 +1126,7 @@ expect(a).toThrowError(/reg/);//期望a方法抛出异常，异常信息可以�
 expect(a).toThrow();//期望a方法抛出异常  
 expect(a).toContain(b);//期望a(数组或者对象)包含b  
 </code></pre></p>
-<p>其他matchers：</p>
+<h4 id="matchers_1"><a name="user-content-matchers_1" href="#matchers_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>其他matchers：</h4>
 <p><strong>jasmine.any(Class)</strong>&ndash;传入构造函数或者类返回数据类型作为期望值，返回true表示实际值和期望值数据类型相同:<br />
 <pre><code class="javascript">it(&quot;matches any value&quot;, function() {  
     expect({}).toEqual(jasmine.any(Object));
@@ -1163,7 +1163,8 @@ afterAll(function)  //在所有测试用例执行完成之后执行一遍afterAl
   var foo = 0;
   beforeEach(function() {
     foo += 1;
-    console.log(&quot;I am beforEach&quot;);
+
+    le.log(&quot;I am beforEach&quot;);
   });
   afterEach(function() {
     foo = 0;
@@ -1661,12 +1662,7 @@ it('Prints the output of the formatter to the element', function(){
   spyOn(mockFunctons, 'mockFormatter');
 
   // But everything else is dead easy
-  var evilFormatter = function() {
-      return evilString;
-  }
-
-  var atRiskBinding = new FormatterBinding(evilFormatter);
-  at  var customBinding = new FormatterBinding(mockFunctions.mockFormatter);
+  var customBinding = new FormatterBinding(mockFunctions.mockFormatter);
   customBinding.update(mockElement, mockValueAccessor);
   var mockElementContent = mockElement.textContent;
   expect(mockElementContent).toBe('I am the mockFormatter return value');
